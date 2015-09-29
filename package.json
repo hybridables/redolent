@@ -1,0 +1,39 @@
+{
+  "name": "redolent",
+  "version": "0.0.0",
+  "description": "Simple promisify a callback-style function with sane defaults.",
+  "repository": "tunnckoCore/redolent",
+  "author": "Charlike Mike Reagent <@tunnckoCore> (http://www.tunnckocore.tk)",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "standard && node test.js"
+  },
+  "dependencies": {
+    "handle-arguments": "^3.0.4",
+    "native-or-another": "^3.0.1",
+    "sliced": "^1.0.1"
+  },
+  "devDependencies": {
+    "assertit": "^0.1.0",
+    "is-buffer": "^1.1.0",
+    "isarray": "0.0.1",
+    "pinkie": "^1.0.0",
+    "semver": "^5.0.3"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "anything",
+    "bluebird",
+    "callback",
+    "defaults",
+    "everywhere",
+    "native",
+    "native-promise",
+    "promise",
+    "promisify",
+    "simple"
+  ]
+}
