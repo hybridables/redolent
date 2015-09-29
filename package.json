@@ -1,6 +1,6 @@
 {
   "name": "redolent",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Simple promisify a callback-style function with sane defaults.",
   "repository": "tunnckoCore/redolent",
   "author": "Charlike Mike Reagent <@tunnckoCore> (http://www.tunnckocore.tk)",
