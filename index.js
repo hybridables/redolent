@@ -44,8 +44,13 @@ module.exports = function redolent (fn, Prome) {
   return function promisify () {
     var sliced = require('sliced')
     var handle = require('handle-arguments')
+    var isAsync = require('is-async-function')
     var argz = handle(arguments)
     var ctx = self || this
+
+    if (argz.callback && !isAsync(argz.callback)) {
+      argz.args = argz.args.concat(argz.callback)
+    }
 
     Prome = require('native-or-another')(Prome)
     var promise = new Prome(function prome (resolve, reject) {

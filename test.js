@@ -16,6 +16,16 @@ var isBuffer = require('is-buffer')
 var semver = require('semver')
 var redolent = require('./index')
 
+function noop () {}
+
+function notSkipOne (one, two, cb) {
+  cb(null, one, two, noop)
+}
+
+function notSkipTwo (one, two, cb) {
+  cb(null, one, two, fs.readFileSync)
+}
+
 function multipleArgs (one, two, three, cb) {
   cb(null, one, two, three)
 }
@@ -61,4 +71,31 @@ test('should flatten multiple arguments to array by default', function (done) {
     test.deepEqual(res, [11, 22, 33])
     done()
   }, done)
+})
+
+test('should skip last argument only if it is `fn(foo, bar, cb)` (async fn)', function (done) {
+  redolent(notSkipOne)(111, 222).then(function (res) {
+    test.strictEqual(isArray(res), true)
+    test.deepEqual(res, [111, 222, noop])
+    done()
+  })
+})
+
+test('should not skip last argument and work core api (fs.readFileSync)', function (done) {
+  redolent(notSkipTwo)(333, 5555).then(function (res) {
+    test.strictEqual(isArray(res), true)
+    test.deepEqual(res, [333, 5555, fs.readFileSync])
+    done()
+  })
+})
+
+test('should not skip if pass callback fn, e.g. fn(err, res) as last argument', function (done) {
+  function foo (_err, res) {}
+  redolent(function (one, fn, cb) {
+    cb(null, one, fn)
+  })(123, foo).then(function (res) {
+    test.strictEqual(isArray(res), true)
+    test.deepEqual(res, [123, foo])
+    done()
+  })
 })

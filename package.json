@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "handle-arguments": "^3.0.4",
+    "is-async-function": "^1.1.0",
     "native-or-another": "^3.0.1",
     "sliced": "^1.0.1"
   },
