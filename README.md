@@ -43,6 +43,71 @@ redolent(request)('http://www.tunnckocore.tk/').then(result => {
 })
 ```
 
+### redolent.promise
+> Static property on which you can pass custom promise constructor.  
+Actually same as `Prome` argument.
+
+**Example**
+
+```js
+const fs = require('fs')
+const redolent = require('redolent')
+
+// `q` promise will be used if not native promise available
+// but only in node <= 0.11.12
+redolent.promise = require('q')
+redolent(fs.readFile)('package.json', 'utf-8').then(data => {
+  console.log(JSON.parse(data).name)
+})
+```
+
+### promisifiedFn.promise
+> You also can pass custom promise module through `.promise` static property of the returned promisified function. 
+
+**Example**
+
+```js
+const fs = require('fs')
+const redolent = require('redolent')
+
+const readFile = redolent(fs.readFileSync)
+
+// `q` promise will be used if not native promise available
+// but only in node <= 0.11.12
+readFile.promise = require('q')
+
+readFile('package.json', 'utf-8').then(data => {
+  console.log(JSON.parse(data).name)
+})
+```
+
+### Access Promise constructor
+> You can access the used Promise constructor for promisify-ing from `promise.Prome`
+
+**Example**
+
+```js
+const fs = require('fs')
+const redolent = require('redolent')
+
+// use `pinkie` promise if not native promise available
+// but only in node <= 0.11.12
+redolent.promise = require('pinkie')
+
+const promise = redolent(fs.readFileSync)('package.json', 'utf8')
+
+console.log(promise.Prome)
+//=> will be `pinkie` promise constructor (only in node <= 0.11.12)
+console.log(promise.Prome.___customPromise) //=> true (only on node <= 0.11.12)
+console.log(promise.___customPromise) //=> true (only on node <= 0.11.12)
+
+promise
+  .then(JSON.parse)
+  .then(data => {
+    console.log(data.name) //=> `redolent`
+  })
+```
+
 
 ## Related
 - [always-done](https://github.com/hybridables/always-done): Handles completion and errors of anything!
