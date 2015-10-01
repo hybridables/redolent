@@ -45,11 +45,12 @@ redolent(request)('http://www.tunnckocore.tk/').then(result => {
 
 
 ## Related
-- [always-done](https://github.com/tunnckoCore/always-done): Handles completion and errors of anything!
-- [always-promise](https://github.com/tunnckoCore/always-promise): Promisify basically **everything**.
-- [always-thunk](https://github.com/tunnckoCore/always-thunk): Create thunk from **anything**, works like `thunkify`. Transforms anything (callbacks, streams, promises, observables, child processes, sync and generator functions) to thunk.
-- [native-or-another](https://github.com/tunnckocore/native-or-another): Always will expose native `Promise` if available, otherwise `Bluebird` but only if you don't give another promise module like `q` or `promise` or what you want.
-- [native-promise](https://github.com/tunnckocore/native-promise): Get native `Promise` or falsey value if not available.
+- [always-done](https://github.com/hybridables/always-done): Handles completion and errors of anything!
+- [always-promise](https://github.com/hybridables/always-promise): Promisify, basically, **everything**. Generator function, callback-style or synchronous function; sync function that returns child process, stream or observable; directly passed promise, stream or child process.
+- [always-thunk](https://github.com/hybridables/always-thunk): Thunkify, basically, **everything**. Generator function, callback-style or synchronous function; sync function that returns child process, stream or observable; directly passed promise, stream or child process.
+- [always-generator](https://github.com/hybridables/always-thunk): Generatorify, basically, **everything**. Async, callback-style or synchronous function; sync function that returns child process, stream or observable; directly passed promise, stream or child process.
+- [native-or-another](https://github.com/tunnckoCore/native-or-another): Always will expose native `Promise` if available, otherwise `Bluebird` but only if you don't give another promise module like `q` or `promise` or what you want.
+- [native-promise](https://github.com/tunnckoCore/native-promise): Get native `Promise` or falsey value if not available.
 
 
 ## Contributing
