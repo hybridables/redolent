@@ -61,6 +61,7 @@ module.exports = function redolent (fn, Prome) {
       }))
     })
 
+    promise.Prome = Prome
     promise.___customPromise = Prome.___customPromise
     promise.___bluebirdPromise = Prome.___bluebirdPromise
     return promise

@@ -47,6 +47,7 @@ test('should promisify with native Promise or Bluebird', function (done) {
     test.ok(res.indexOf('"license": "MIT"') !== -1)
     if (semver.lt(process.version, '0.11.13')) {
       test.strictEqual(promise.___bluebirdPromise, true)
+      test.strictEqual(promise.Prome.___bluebirdPromise, true)
     }
     done()
   }, done)
@@ -60,6 +61,7 @@ test('should promisify with given promise module (pinkie)', function (done) {
     test.strictEqual(isBuffer(res), true)
     if (semver.lt(process.version, '0.11.13')) {
       test.strictEqual(promise.___customPromise, true)
+      test.strictEqual(promise.Prome.___customPromise, true)
     }
     done()
   }, done)
@@ -74,6 +76,7 @@ test('should promisify with promise module given in `redolent.promise`', functio
     test.strictEqual(isBuffer(res), true)
     if (semver.lt(process.version, '0.11.13')) {
       test.strictEqual(promise.___customPromise, true)
+      test.strictEqual(promise.Prome.___customPromise, true)
     }
     done()
   }, done)
@@ -88,6 +91,7 @@ test('should promisify with promise module given in `redolent(fn).promise`', fun
     test.strictEqual(isBuffer(res), true)
     if (semver.lt(process.version, '0.11.13')) {
       test.strictEqual(promise.___customPromise, true)
+      test.strictEqual(promise.Prome.___customPromise, true)
     }
     done()
   }, done)
