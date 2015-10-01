@@ -65,6 +65,34 @@ test('should promisify with given promise module (pinkie)', function (done) {
   }, done)
 })
 
+test('should promisify with promise module given in `redolent.promise`', function (done) {
+  redolent.promise = require('pinkie')
+  var readFile = redolent(fs.readFile)
+  var promise = readFile('package.json')
+
+  promise.then(function (res) {
+    test.strictEqual(isBuffer(res), true)
+    if (semver.lt(process.version, '0.11.13')) {
+      test.strictEqual(promise.___customPromise, true)
+    }
+    done()
+  }, done)
+})
+
+test('should promisify with promise module given in `redolent(fn).promise`', function (done) {
+  var readFile = redolent(fs.readFile)
+  readFile.promise = require('pinkie')
+  var promise = readFile('package.json')
+
+  promise.then(function (res) {
+    test.strictEqual(isBuffer(res), true)
+    if (semver.lt(process.version, '0.11.13')) {
+      test.strictEqual(promise.___customPromise, true)
+    }
+    done()
+  }, done)
+})
+
 test('should flatten multiple arguments to array by default', function (done) {
   redolent(multipleArgs)(11, 22, 33).then(function (res) {
     test.strictEqual(isArray(res), true)
