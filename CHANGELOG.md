@@ -1,5 +1,9 @@
 
 
+## 1.0.2 - 2015-10-01
+- Release v1.0.2 / npm@v1.0.2
+- fix `always-generator` link
+
 ## 1.0.1 - 2015-10-01
 - Release v1.0.1 / npm@v1.0.1
 - fixes #2 bug
