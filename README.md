@@ -70,7 +70,7 @@ redolent(fs.readFile)('package.json', 'utf-8').then(data => {
 const fs = require('fs')
 const redolent = require('redolent')
 
-const readFile = redolent(fs.readFileSync)
+const readFile = redolent(fs.readFile)
 
 // `q` promise will be used if not native promise available
 // but only in node <= 0.11.12
@@ -94,7 +94,7 @@ const redolent = require('redolent')
 // but only in node <= 0.11.12
 redolent.promise = require('pinkie')
 
-const promise = redolent(fs.readFileSync)('package.json', 'utf8')
+const promise = redolent(fs.readFile)('package.json', 'utf8')
 
 console.log(promise.Prome)
 //=> will be `pinkie` promise constructor (only in node <= 0.11.12)
