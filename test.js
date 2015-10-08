@@ -131,3 +131,25 @@ test('should not skip if pass callback fn, e.g. fn(err, res) as last argument', 
     done()
   })
 })
+
+test('should promisify synchronous function, e.g. `fs.readFileSync`', function (done) {
+  var promise = redolent(fs.readFileSync)('package.json', 'utf8')
+
+  promise
+    .then(JSON.parse)
+    .then(function (res) {
+      test.strictEqual(res.name, 'redolent')
+      done()
+    }, done)
+})
+
+test('should catch errors from failing sync function', function (done) {
+  var promise = redolent(fs.readFileSync)('foobar.json', 'utf8')
+
+  promise
+    .catch(function (err) {
+      test.strictEqual(err.code, 'ENOENT')
+      test.strictEqual(/no such file or directory/.test(err.message), true)
+      done()
+    })
+})

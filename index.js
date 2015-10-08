@@ -54,11 +54,14 @@ module.exports = function redolent (fn, Prome) {
 
     Prome = require('native-or-another')(Prome || redolent.promise || promisify.promise)
     var promise = new Prome(function prome (resolve, reject) {
-      fn.apply(ctx, argz.args.concat(function cb (err, res) {
+      var syncResult = fn.apply(ctx, argz.args.concat(function cb (err, res) {
         if (err) return reject(err)
         if (arguments.length > 2) res = sliced(arguments, 1)
         resolve(res)
       }))
+      if (!isAsync(fn)) {
+        resolve(syncResult)
+      }
     })
 
     promise.Prome = Prome
