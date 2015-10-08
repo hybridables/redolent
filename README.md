@@ -1,6 +1,6 @@
 # [redolent][author-www-url] [![npmjs.com][npmjs-img]][npmjs-url] [![The MIT License][license-img]][license-url] 
 
-> Simple promisify a callback-style function with sane defaults.
+> Simple promisify a callback-style function with sane defaults. Support promisify-ing sync functions.
 
 [![code climate][codeclimate-img]][codeclimate-url] [![standard code style][standard-img]][standard-url] [![travis build status][travis-img]][travis-url] [![coverage status][coveralls-img]][coveralls-url] [![dependency status][david-img]][david-url]
 
@@ -35,6 +35,13 @@ const redolent = require('redolent')
 
 redolent(fs.readFile)('package.json', 'utf-8').then(data => {
   console.log(JSON.parse(data).name)
+})
+
+// promisify sync function
+redolent(fs.readFileSync)('package.json', 'utf-8')
+.then(JSON.parse)
+.then(res => {
+  console.log(res.name)
 })
 
 // handles multiple arguments by default

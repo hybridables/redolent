@@ -1,7 +1,7 @@
 {
   "name": "redolent",
   "version": "1.0.2",
-  "description": "Simple promisify a callback-style function with sane defaults.",
+  "description": "Simple promisify a callback-style function with sane defaults. Support promisify-ing sync functions.",
   "repository": "tunnckoCore/redolent",
   "author": "Charlike Mike Reagent <@tunnckoCore> (http://www.tunnckocore.tk)",
   "main": "index.js",
