@@ -1,5 +1,11 @@
 
 
+## 1.0.3 - 2015-10-07
+- Release v1.0.3 / npm@v1.0.3
+- update docs
+- **NEW:** support for promisify-ing sync functions
+- fix readme examples
+
 ## 1.0.2 - 2015-10-01
 - Release v1.0.2 / npm@v1.0.2
 - fix `always-generator` link
