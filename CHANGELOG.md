@@ -1,5 +1,9 @@
 
 
+## 1.0.4 - 2015-10-11
+- Release v1.0.4 / npm@v1.0.4
+- fixes #3
+
 ## 1.0.3 - 2015-10-07
 - Release v1.0.3 / npm@v1.0.3
 - update docs
