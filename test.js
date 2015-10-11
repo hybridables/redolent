@@ -132,7 +132,7 @@ test('should not skip if pass callback fn, e.g. fn(err, res) as last argument', 
   })
 })
 
-test('should promisify synchronous function, e.g. `fs.readFileSync`', function (done) {
+test('should promisify sync function `fs.readFileSync` and handle utf8 result', function (done) {
   var promise = redolent(fs.readFileSync)('package.json', 'utf8')
 
   promise
@@ -141,6 +141,14 @@ test('should promisify synchronous function, e.g. `fs.readFileSync`', function (
       test.strictEqual(res.name, 'redolent')
       done()
     }, done)
+})
+
+test('should promisify `fs.readFileSync` and handle buffer result', function (done) {
+  var readFile = redolent(fs.readFileSync)
+  readFile('package.json').then(function (buf) {
+    test.strictEqual(isBuffer(buf), true)
+    done()
+  }, done)
 })
 
 test('should catch errors from failing sync function', function (done) {

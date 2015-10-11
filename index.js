@@ -44,22 +44,26 @@ module.exports = function redolent (fn, Prome) {
   return function promisify () {
     var sliced = require('sliced')
     var handle = require('handle-arguments')
-    var isAsync = require('is-async-function')
+    var isAsyncFn = require('is-async-function')
     var argz = handle(arguments)
     var ctx = self || this
 
-    if (argz.callback && !isAsync(argz.callback)) {
+    if (argz.callback && !isAsyncFn(argz.callback)) {
       argz.args = argz.args.concat(argz.callback)
     }
 
     Prome = require('native-or-another')(Prome || redolent.promise || promisify.promise)
     var promise = new Prome(function prome (resolve, reject) {
-      var syncResult = fn.apply(ctx, argz.args.concat(function cb (err, res) {
-        if (err) return reject(err)
-        if (arguments.length > 2) res = sliced(arguments, 1)
-        resolve(res)
-      }))
-      if (!isAsync(fn)) {
+      var isAsync = isAsyncFn(fn)
+      if (isAsync) {
+        argz.args = argz.args.concat(function cb (err, res) {
+          if (err) return reject(err)
+          if (arguments.length > 2) res = sliced(arguments, 1)
+          resolve(res)
+        })
+      }
+      var syncResult = fn.apply(ctx, argz.args)
+      if (!isAsync) {
         resolve(syncResult)
       }
     })
