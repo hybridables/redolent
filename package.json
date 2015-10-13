@@ -1,6 +1,6 @@
 {
   "name": "redolent",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Simple promisify a callback-style function with sane defaults. Support promisify-ing sync functions.",
   "repository": "hybridables/redolent",
   "author": "Charlike Mike Reagent <@tunnckoCore> (http://www.tunnckocore.tk)",

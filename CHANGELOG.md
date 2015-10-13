@@ -1,5 +1,11 @@
 
 
+## 1.0.5 - 2015-10-13
+- Release v1.0.5 / npm@v1.0.5
+- close #5
+- update travis
+- close #4
+
 ## 1.0.4 - 2015-10-11
 - Release v1.0.4 / npm@v1.0.4
 - fixes #3
