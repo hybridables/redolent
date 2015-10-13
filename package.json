@@ -24,7 +24,8 @@
     "semver": "^5.0.3"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "utils.js"
   ],
   "keywords": [
     "anything",
