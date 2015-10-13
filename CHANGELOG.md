@@ -1,5 +1,9 @@
 
 
+## 1.0.6 - 2015-10-14
+- Release v1.0.6 / npm@v1.0.6
+- update `files` fields
+
 ## 1.0.5 - 2015-10-13
 - Release v1.0.5 / npm@v1.0.5
 - close #5
