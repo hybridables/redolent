@@ -126,7 +126,7 @@ promise
 
 
 ## Contributing
-Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/tunnckoCore/redolent/issues/new).  
+Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/hybridables/redolent/issues/new).  
 But before doing anything, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) guidelines.
 
 
@@ -138,21 +138,21 @@ But before doing anything, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) 
 [npmjs-url]: https://www.npmjs.com/package/redolent
 [npmjs-img]: https://img.shields.io/npm/v/redolent.svg?label=redolent
 
-[license-url]: https://github.com/tunnckoCore/redolent/blob/master/LICENSE.md
+[license-url]: https://github.com/hybridables/redolent/blob/master/LICENSE.md
 [license-img]: https://img.shields.io/badge/license-MIT-blue.svg
 
 
-[codeclimate-url]: https://codeclimate.com/github/tunnckoCore/redolent
-[codeclimate-img]: https://img.shields.io/codeclimate/github/tunnckoCore/redolent.svg
+[codeclimate-url]: https://codeclimate.com/github/hybridables/redolent
+[codeclimate-img]: https://img.shields.io/codeclimate/github/hybridables/redolent.svg
 
-[travis-url]: https://travis-ci.org/tunnckoCore/redolent
-[travis-img]: https://img.shields.io/travis/tunnckoCore/redolent.svg
+[travis-url]: https://travis-ci.org/hybridables/redolent
+[travis-img]: https://img.shields.io/travis/hybridables/redolent.svg
 
-[coveralls-url]: https://coveralls.io/r/tunnckoCore/redolent
-[coveralls-img]: https://img.shields.io/coveralls/tunnckoCore/redolent.svg
+[coveralls-url]: https://coveralls.io/r/hybridables/redolent
+[coveralls-img]: https://img.shields.io/coveralls/hybridables/redolent.svg
 
-[david-url]: https://david-dm.org/tunnckoCore/redolent
-[david-img]: https://img.shields.io/david/tunnckoCore/redolent.svg
+[david-url]: https://david-dm.org/hybridables/redolent
+[david-img]: https://img.shields.io/david/hybridables/redolent.svg
 
 [standard-url]: https://github.com/feross/standard
 [standard-img]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg
