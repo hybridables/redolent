@@ -12,15 +12,15 @@
   "dependencies": {
     "handle-arguments": "^3.0.4",
     "is-async-function": "^1.1.0",
-    "lazy-cache": "^0.2.3",
+    "lazy-cache": "^1.0.3",
     "native-or-another": "^3.0.1",
     "sliced": "^1.0.1"
   },
   "devDependencies": {
     "assertit": "^0.1.0",
     "is-buffer": "^1.1.0",
-    "isarray": "0.0.1",
-    "pinkie": "^1.0.0",
+    "isarray": "1.0.0",
+    "pinkie": "^2.0.1",
     "semver": "^5.0.3"
   },
   "files": [
