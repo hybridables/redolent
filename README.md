@@ -1,8 +1,20 @@
 # [redolent][author-www-url] [![npmjs.com][npmjs-img]][npmjs-url] [![The MIT License][license-img]][license-url] 
 
-> Simple promisify a callback-style function with sane defaults. Support promisify-ing sync functions.
+> Simple promisify **everything** (string, array, stream, boolean, sync/async function, etc) with sane defaults.
 
 [![code climate][codeclimate-img]][codeclimate-url] [![standard code style][standard-img]][standard-url] [![travis build status][travis-img]][travis-url] [![coverage status][coveralls-img]][coveralls-url] [![dependency status][david-img]][david-url]
+
+
+## What's the difference?
+> _What's the difference between me and you?!  
+> **–– Dr Dre feat. Eminem & X-Zibit - Whats the Difference, https://youtu.be/8y5MjguI-pM**_
+
+What's the difference between this module, [relike](https://github.com/hybridables/relike) and [relike-all](https://github.com/hybridables/relike-all)?  
+–– Simply, almost nothing.
+
+1. [redolent](https://github.com/hybridables/redolent) accepts **everything** and returns function, which when is executed it returns `Promise`. Above things applies here, because it is on top of `relike-all`.
+2. [relike-all](https://github.com/hybridables/relike-all) accepts everything and returns `Promise`. 
+3. [relike](https://github.com/hybridables/relike) only accepts `sync` or `async` function which is executed immediately with next arguments, after that it  returns `Promise`.
 
 
 ## Install
@@ -22,7 +34,7 @@ const redolent = require('redolent')
 > Will try to promisify `fn` with native Promise, otherwise will use `Bluebird`
 or you can give different promise module as `Prome`, for example `pinkie`.
 
-- `<fn>` **{Function}** callback-style function to promisify
+- `[val]` **{Anything}** any type from string to function (number, stream, array, boolean, etc)
 - `[Prome]` **{Function}** custom Promise module to use, e.g. `Q`
 - `return` **{Function}** promisified function
 
@@ -116,6 +128,30 @@ promise
 ```
 
 
+## Promise from any type
+> Any number of any type of arguments can be given - String, Stream, Null, Boolean, Number and etc.
+
+**Example**
+
+```js
+const redolent = require('redolent')
+
+var fn = redolent('foo bar baz')
+
+fn().then(function (str) {
+  console.log(str) // => 'foo bar baz'
+}, console.error)
+
+redolent(false)().then(function (bool) {
+  console.log(bool) // => false
+}, console.error)
+
+redolent({a: 'b'})().then(function (arr) {
+  console.log(arr) // => {a: 'b'}
+}, console.error)
+```
+
+
 ## Related
 - [always-done](https://github.com/hybridables/always-done): Handles completion and errors of anything!
 - [always-promise](https://github.com/hybridables/always-promise): Promisify, basically, **everything**. Generator function, callback-style or synchronous function; sync function that returns child process, stream or observable; directly passed promise, stream or child process.
@@ -123,6 +159,8 @@ promise
 - [always-generator](https://github.com/hybridables/always-generator): Generatorify, basically, **everything**. Async, callback-style or synchronous function; sync function that returns child process, stream or observable; directly passed promise, stream or child process.
 - [native-or-another](https://github.com/tunnckoCore/native-or-another): Always will expose native `Promise` if available, otherwise `Bluebird` but only if you don't give another promise module like `q` or `promise` or what you want.
 - [native-promise](https://github.com/tunnckoCore/native-promise): Get native `Promise` or falsey value if not available.
+- [relike](https://github.com/hybridables/relike): Simple promisify a callback-style function with sane defaults. Support promisify-ing sync functions.
+- [relike-all](https://github.com/hybridables/relike-all): Create promise from sync, async, string, number, array and so on. Handle completion (results) and errors gracefully! Built on top of `relike`, used by `redolent` to build robust (hybrid) APIs.
 
 
 ## Contributing

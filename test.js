@@ -30,13 +30,30 @@ function multipleArgs (one, two, three, cb) {
   cb(null, one, two, three)
 }
 
-test('should throw TypeError if not function given', function (done) {
-  function fixture () {
-    redolent(123)
-  }
-  test.throws(fixture, TypeError)
-  test.throws(fixture, /redolent expect a function/)
-  done()
+test('should not throw TypeError if falsey value given', function (done) {
+  redolent(false)().then(function (bool) {
+    test.strictEqual(bool, false)
+    return redolent(null)().then(function (empty) {
+      test.strictEqual(empty, null)
+      done()
+    })
+  }, done)
+})
+
+test('should promisify a given string (only one argument)', function (done) {
+  var fn = redolent('foo bar baz')
+  fn().then(function (str) {
+    test.strictEqual(str, 'foo bar baz')
+    done()
+  }, done)
+})
+
+test('should flatten arguments from first and from promisified function', function (done) {
+  var func = redolent('foo')
+  func(123, [1, 2], {a: 'b'}).then(function (arr) {
+    test.deepEqual(arr, ['foo', 123, [1, 2], {a: 'b'}])
+    done()
+  }, done)
 })
 
 test('should promisify with native Promise or Bluebird', function (done) {

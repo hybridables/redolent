@@ -7,6 +7,8 @@
 
 'use strict'
 
+var utils = require('./utils')
+
 /**
  * Will try to promisify `fn` with native Promise,
  * otherwise will use `Bluebird` or you can give
@@ -30,45 +32,17 @@
  * ```
  *
  * @name   redolent
- * @param  {Function} `<fn>` callback-style function to promisify
+ * @param  {Anything} `[val]` any type from string to function (number, stream, array, boolean, etc)
  * @param  {Function} `[Prome]` custom Promise module to use, e.g. `Q`
  * @return {Function} promisified function
  * @api public
  */
-module.exports = function redolent (fn, Prome) {
-  if (typeof fn !== 'function') {
-    throw new TypeError('redolent expect a function')
-  }
-
+module.exports = function redolent (val, Prome) {
   var self = this
-  return function promisify () {
-    var utils = require('./utils')
-    var argz = utils.handleArguments(arguments)
+  return function promisifyFn () {
     var ctx = self || this
-
-    if (argz.callback && !utils.isAsyncFunction(argz.callback)) {
-      argz.args = argz.args.concat(argz.callback)
-    }
-
-    Prome = utils.nativeOrAnother(Prome || redolent.promise || promisify.promise)
-    var promise = new Prome(function prome (resolve, reject) {
-      var isAsync = utils.isAsyncFunction(fn)
-      if (isAsync) {
-        argz.args = argz.args.concat(function cb (err, res) {
-          if (err) return reject(err)
-          if (arguments.length > 2) res = utils.sliced(arguments, 1)
-          resolve(res)
-        })
-      }
-      var syncResult = fn.apply(ctx, argz.args)
-      if (!isAsync) {
-        resolve(syncResult)
-      }
-    })
-
-    promise.Prome = Prome
-    promise.___customPromise = Prome.___customPromise
-    promise.___bluebirdPromise = Prome.___bluebirdPromise
-    return promise
+    var args = utils.sliced(arguments)
+    utils.relikeAll.promise = Prome || redolent.promise || promisifyFn.promise
+    return utils.relikeAll.apply(ctx, [val].concat(args))
   }
 }
