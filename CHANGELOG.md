@@ -1,5 +1,16 @@
 
 
+## 1.0.8 - 2016-01-15
+- Release v1.0.8 / npm@v1.0.8
+- update travis to use node@5 also
+- udpate license year
+- update to use `relike-all` - **NEW** now accept everything, not only sync and async (callback) functions
+  + no breaking changes, only adds, same api
+
+## 1.0.7 - 2016-01-13
+- Release v1.0.7 / npm@v1.0.7
+- greenkeeper.io PR bump deps
+
 ## 1.0.6 - 2015-10-14
 - Release v1.0.6 / npm@v1.0.6
 - update `files` fields

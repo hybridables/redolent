@@ -1,6 +1,6 @@
 {
   "name": "redolent",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Simple promisify **everything** (string, array, stream, boolean, sync/async function, etc) with sane defaults.",
   "repository": "hybridables/redolent",
   "author": "Charlike Mike Reagent <@tunnckoCore> (http://www.tunnckocore.tk)",
