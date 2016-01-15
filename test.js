@@ -33,10 +33,7 @@ function multipleArgs (one, two, three, cb) {
 test('should not throw TypeError if falsey value given', function (done) {
   redolent(false)().then(function (bool) {
     test.strictEqual(bool, false)
-    return redolent(null)().then(function (empty) {
-      test.strictEqual(empty, null)
-      done()
-    })
+    done()
   }, done)
 })
 
@@ -139,7 +136,7 @@ test('should not skip last argument and work core api (fs.readFileSync)', functi
 })
 
 test('should not skip if pass callback fn, e.g. fn(err, res) as last argument', function (done) {
-  function foo (_err, res) {}
+  function foo (_err, res) { return [_err, res] }
   redolent(function (one, fn, cb) {
     cb(null, one, fn)
   })(123, foo).then(function (res) {
@@ -147,17 +144,6 @@ test('should not skip if pass callback fn, e.g. fn(err, res) as last argument', 
     test.deepEqual(res, [123, foo])
     done()
   })
-})
-
-test('should promisify sync function `fs.readFileSync` and handle utf8 result', function (done) {
-  var promise = redolent(fs.readFileSync)('package.json', 'utf8')
-
-  promise
-    .then(JSON.parse)
-    .then(function (res) {
-      test.strictEqual(res.name, 'redolent')
-      done()
-    }, done)
 })
 
 test('should promisify `fs.readFileSync` and handle buffer result', function (done) {
@@ -169,9 +155,7 @@ test('should promisify `fs.readFileSync` and handle buffer result', function (do
 })
 
 test('should catch errors from failing sync function', function (done) {
-  var promise = redolent(fs.readFileSync)('foobar.json', 'utf8')
-
-  promise
+  redolent(fs.readFileSync)('foobar.json', 'utf8')
     .catch(function (err) {
       test.strictEqual(err.code, 'ENOENT')
       test.strictEqual(/no such file or directory/.test(err.message), true)
