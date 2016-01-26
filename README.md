@@ -9,11 +9,11 @@
 > _What's the difference between me and you?!  
 > **–– Dr Dre feat. Eminem & X-Zibit - Whats the Difference, https://youtu.be/8y5MjguI-pM**_
 
-What's the difference between this module, [relike](https://github.com/hybridables/relike) and [relike-all](https://github.com/hybridables/relike-all)?  
+What's the difference between this module, [relike](https://github.com/hybridables/relike) and [relike-value](https://github.com/hybridables/relike-value)?  
 –– Simply, almost nothing.
 
-1. [redolent](https://github.com/hybridables/redolent) accepts **everything** and returns function, which when is executed it returns `Promise`. Above things applies here, because it is on top of `relike-all`.
-2. [relike-all](https://github.com/hybridables/relike-all) accepts everything and returns `Promise`. 
+1. [redolent](https://github.com/hybridables/redolent) accepts **everything** and returns function, which when is executed it returns `Promise`. Above things applies here, because it is on top of `relike-value`.
+2. [relike-value](https://github.com/hybridables/relike-value) accepts everything and returns `Promise`. 
 3. [relike](https://github.com/hybridables/relike) only accepts `sync` or `async` function which is executed immediately with next arguments, after that it  returns `Promise`.
 
 
@@ -160,7 +160,8 @@ redolent({a: 'b'})().then(function (arr) {
 - [native-or-another](https://github.com/tunnckoCore/native-or-another): Always will expose native `Promise` if available, otherwise `Bluebird` but only if you don't give another promise module like `q` or `promise` or what you want.
 - [native-promise](https://github.com/tunnckoCore/native-promise): Get native `Promise` or falsey value if not available.
 - [relike](https://github.com/hybridables/relike): Simple promisify a callback-style function with sane defaults. Support promisify-ing sync functions.
-- [relike-all](https://github.com/hybridables/relike-all): Create promise from sync, async, string, number, array and so on. Handle completion (results) and errors gracefully! Built on top of `relike`, used by `redolent` to build robust (hybrid) APIs.
+- [relike-all](https://github.com/hybridables/relike-all): Promisify all functions in an object, using `relike`.
+- [relike-value](https://github.com/hybridables/relike-value): Create promise from sync, async, string, number, array and so on. Handle completion (results) and errors gracefully! Built on top of `relike`, used by `redolent` to build robust (hybrid) APIs.
 
 
 ## Contributing
