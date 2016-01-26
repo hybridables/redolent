@@ -1,5 +1,10 @@
 
 
+## 1.0.9 - 2016-01-26
+- Release v1.0.9 / npm@v1.0.9
+- update dotfiles
+- use `relike-value` instead of `relike-all`
+
 ## 1.0.8 - 2016-01-15
 - Release v1.0.8 / npm@v1.0.8
 - update travis to use node@5 also
