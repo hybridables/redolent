@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "lazy-cache": "^1.0.3",
-    "relike-all": "^1.0.0",
+    "relike-value": "^1.0.0",
     "sliced": "^1.0.1"
   },
   "devDependencies": {

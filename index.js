@@ -42,7 +42,7 @@ module.exports = function redolent (val, Prome) {
   return function promisifyFn () {
     var ctx = self || this
     var args = utils.sliced(arguments)
-    utils.relikeAll.promise = Prome || redolent.promise || promisifyFn.promise
-    return utils.relikeAll.apply(ctx, [val].concat(args))
+    utils.relikeValue.promise = Prome || redolent.promise || promisifyFn.promise
+    return utils.relikeValue.apply(ctx, [val].concat(args))
   }
 }

@@ -24,7 +24,7 @@ require = utils // eslint-disable-line no-undef, no-native-reassign
  * Lazily required module dependencies
  */
 
-require('relike-all')
+require('relike-value')
 require('sliced')
 
 /**
