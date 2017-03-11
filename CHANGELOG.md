@@ -1,3 +1,29 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/hybridables/redolent/compare/v1.0.9...v2.0.0) (2017-03-11)
+
+
+### Bug Fixes
+
+* **detection:** strict coercion to boolean ([c1430fe](https://github.com/hybridables/redolent/commit/c1430fe))
+* **package:** add keywords ([ddb645c](https://github.com/hybridables/redolent/commit/ddb645c))
+
+
+### Code Refactoring
+
+* **simplify:** rewrite from scratch, update boilerplate stuff ([3ff2cdc](https://github.com/hybridables/redolent/commit/3ff2cdc))
+
+
+### BREAKING CHANGES
+
+* **simplify:** Promisify just a function - sync and async. Allow passing args, custom promise ctor
+and context through options
+
+
+
 
 
 ## 1.0.9 - 2016-01-26
