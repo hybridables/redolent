@@ -376,8 +376,8 @@ var index = function redolent (fn, opts) {
       }
     });
 
-    promise.___nativePromise = index$10;
-    promise.___customPromise = !index$10;
+    promise.___nativePromise = Boolean(index$10);
+    promise.___customPromise = !promise.___nativePromise;
     return promise
   }
 };

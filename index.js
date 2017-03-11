@@ -106,8 +106,8 @@ module.exports = function redolent (fn, opts) {
       }
     })
 
-    promise.___nativePromise = Native
-    promise.___customPromise = !Native
+    promise.___nativePromise = Boolean(Native)
+    promise.___customPromise = !promise.___nativePromise
     return promise
   }
 }
