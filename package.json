@@ -51,7 +51,23 @@
   "files": [
     "dist/"
   ],
-  "keywords": [],
+  "keywords": [
+    "async",
+    "async-await",
+    "asynchronous",
+    "await",
+    "callback",
+    "defaults",
+    "minimal",
+    "native",
+    "native-promise",
+    "promise",
+    "promisify",
+    "sane",
+    "simple",
+    "sync",
+    "tiny"
+  ],
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
