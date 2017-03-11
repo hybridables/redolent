@@ -1,7 +1,7 @@
 /*!
- * redolent <https://github.com/hybridables/redolent>
+ * redolent <https://github.com/tunnckoCore/redolent>
  *
- * Copyright (c) 2015-2016 Charlike Mike Reagent <@tunnckoCore> (http://www.tunnckocore.tk)
+ * Copyright (c) Charlike Mike Reagent <@tunnckoCore> (https://i.am.charlike.online)
  * Released under the MIT license.
  */
 
@@ -10,11 +10,11 @@
 'use strict'
 
 var fs = require('fs')
-var test = require('assertit')
-var isArray = require('isarray')
-var isBuffer = require('is-buffer')
+var test = require('mukla')
 var semver = require('semver')
 var redolent = require('./index')
+var extend = require('extend-shallow')
+var Pinkie = require('pinkie')
 
 function noop () {}
 
@@ -30,135 +30,144 @@ function multipleArgs (one, two, three, cb) {
   cb(null, one, two, three)
 }
 
-test('should not throw TypeError if falsey value given', function (done) {
-  redolent(false)().then(function (bool) {
-    test.strictEqual(bool, false)
-    done()
-  }, done)
+test('should throw TypeError if not function given', function (done) {
+  function fixture () {
+    redolent(false)
+  }
+
+  test.throws(fixture, TypeError)
+  test.throws(fixture, /expect `fn` to be a function/)
+  done()
 })
 
-test('should promisify a given string (only one argument)', function (done) {
-  var fn = redolent('foo bar baz')
-  fn().then(function (str) {
-    test.strictEqual(str, 'foo bar baz')
-    done()
-  }, done)
-})
-
-test('should flatten arguments from first and from promisified function', function (done) {
-  var func = redolent('foo')
-  func(123, [1, 2], {a: 'b'}).then(function (arr) {
-    test.deepEqual(arr, ['foo', 123, [1, 2], {a: 'b'}])
-    done()
-  }, done)
-})
-
-test('should promisify with native Promise or Bluebird', function (done) {
-  var readFile = redolent(fs.readFile)
-  var promise = readFile('./package.json', 'utf-8')
-
-  promise.then(function (res) {
-    test.ok(res.indexOf('"license": "MIT"') !== -1)
-    if (semver.lt(process.version, '0.11.13')) {
-      test.strictEqual(promise.___bluebirdPromise, true)
-      test.strictEqual(promise.Prome.___bluebirdPromise, true)
-    }
-    done()
-  }, done)
-})
-
-test('should promisify with given promise module (pinkie)', function (done) {
-  var readFile = redolent(fs.readFile, require('pinkie'))
-  var promise = readFile('package.json')
-
-  promise.then(function (res) {
-    test.strictEqual(isBuffer(res), true)
-    if (semver.lt(process.version, '0.11.13')) {
-      test.strictEqual(promise.___customPromise, true)
-      test.strictEqual(promise.Prome.___customPromise, true)
-    }
-    done()
-  }, done)
-})
-
-test('should promisify with promise module given in `redolent.promise`', function (done) {
-  redolent.promise = require('pinkie')
-  var readFile = redolent(fs.readFile)
-  var promise = readFile('package.json')
-
-  promise.then(function (res) {
-    test.strictEqual(isBuffer(res), true)
-    if (semver.lt(process.version, '0.11.13')) {
-      test.strictEqual(promise.___customPromise, true)
-      test.strictEqual(promise.Prome.___customPromise, true)
-    }
-    done()
-  }, done)
-})
-
-test('should promisify with promise module given in `redolent(fn).promise`', function (done) {
-  var readFile = redolent(fs.readFile)
-  readFile.promise = require('pinkie')
-  var promise = readFile('package.json')
-
-  promise.then(function (res) {
-    test.strictEqual(isBuffer(res), true)
-    if (semver.lt(process.version, '0.11.13')) {
-      test.strictEqual(promise.___customPromise, true)
-      test.strictEqual(promise.Prome.___customPromise, true)
-    }
-    done()
-  }, done)
-})
-
-test('should flatten multiple arguments to array by default', function (done) {
-  redolent(multipleArgs)(11, 22, 33).then(function (res) {
-    test.strictEqual(isArray(res), true)
-    test.deepEqual(res, [11, 22, 33])
-    done()
-  }, done)
-})
-
-test('should skip last argument only if it is `fn(foo, bar, cb)` (async fn)', function (done) {
-  redolent(notSkipOne)(111, 222).then(function (res) {
-    test.strictEqual(isArray(res), true)
-    test.deepEqual(res, [111, 222, noop])
-    done()
-  })
-})
-
-test('should not skip last argument and work core api (fs.readFileSync)', function (done) {
-  redolent(notSkipTwo)(333, 5555).then(function (res) {
-    test.strictEqual(isArray(res), true)
-    test.deepEqual(res, [333, 5555, fs.readFileSync])
-    done()
-  })
-})
-
-test('should not skip if pass callback fn, e.g. fn(err, res) as last argument', function (done) {
-  function foo (_err, res) { return [_err, res] }
-  redolent(function (one, fn, cb) {
-    cb(null, one, fn)
-  })(123, foo).then(function (res) {
-    test.strictEqual(isArray(res), true)
-    test.deepEqual(res, [123, foo])
-    done()
-  })
-})
-
-test('should promisify `fs.readFileSync` and handle buffer result', function (done) {
-  var readFile = redolent(fs.readFileSync)
-  readFile('package.json').then(function (buf) {
-    test.strictEqual(isBuffer(buf), true)
-    done()
-  }, done)
-})
-
-test('should catch errors from failing sync function', function (done) {
-  redolent(fs.readFileSync)('foobar.json', 'utf8')
-    .catch(function (err) {
-      test.strictEqual(err.code, 'ENOENT')
-      test.strictEqual(/no such file or directory/.test(err.message), true)
-      done()
+function factory (promisify) {
+  test('should promisify a sync function', function () {
+    var fn = promisify(function () {
+      return 'foo bar baz'
     })
-})
+    return fn().then(function (str) {
+      test.strictEqual(str, 'foo bar baz')
+    })
+  })
+
+  test('should flatten args', function () {
+    var func = promisify(function (a, b, c, d, e) {
+      return [a, b, c, d, e]
+    }, {
+      args: ['foo', 'bar']
+    })
+
+    return func(123, [1, 2], { a: 'b' }).then(function (arr) {
+      test.deepEqual(arr, [ 'foo', 'bar', 123, [ 1, 2 ], { a: 'b' } ])
+    })
+  })
+
+  test('should promisify with given opts.Promise module (pinkie)', function (done) {
+    var readFile = promisify(fs.readFile, {
+      Promise: Pinkie
+    })
+    var promise = readFile('package.json')
+
+    promise.then(function (res) {
+      test.strictEqual(typeof res !== 'string', true)
+      if (semver.lt(process.version, '0.11.13')) {
+        test.strictEqual(promise.___customPromise, true)
+      }
+      done()
+    }).catch(done)
+  })
+
+  test('should flatten multiple arguments to array by default', function (done) {
+    promisify(multipleArgs)(11, 22, 33).then(function (res) {
+      test.strictEqual(Array.isArray(res), true)
+      test.deepEqual(res, [11, 22, 33])
+      done()
+    }).catch(done)
+  })
+
+  test('should not skip if pass callback fn, e.g. fn(err, res) as last argument', function (done) {
+    function foo (_err, res) { return [_err, res] }
+
+    promisify(function (one, fn, cb) {
+      cb(null, one, fn)
+    })(123, foo).then(function (res) {
+      test.strictEqual(Array.isArray(res), true)
+      test.deepEqual(res, [123, foo])
+      done()
+    }).catch(done)
+  })
+
+  test('should promisify `fs.readFileSync` and handle buffer result', function (done) {
+    var readFile = promisify(fs.readFileSync)
+    readFile('package.json').then(function (buf) {
+      test.strictEqual(typeof buf.toString(), 'string')
+      done()
+    }).catch(done)
+  })
+
+  test('should catch errors from failing sync function', function (done) {
+    promisify(fs.readFileSync)('foobar.json', 'utf8')
+      .catch(function (err) {
+        test.strictEqual(err.code, 'ENOENT')
+        test.strictEqual(/no such file or directory/.test(err.message), true)
+        done()
+      })
+      .catch(done)
+  })
+
+  test('should skip last argument only if it is `fn(foo, bar, cb)` (async fn)', function (done) {
+    promisify(notSkipOne)(111, 222).then(function (res) {
+      test.strictEqual(Array.isArray(res), true)
+      test.deepEqual(res, [111, 222, noop])
+      done()
+    }).catch(done)
+  })
+
+  test('should not skip last argument and work core api (fs.readFileSync)', function (done) {
+    promisify(notSkipTwo)(333, 5555).then(function (res) {
+      test.strictEqual(Array.isArray(res), true)
+      test.deepEqual(res, [333, 5555, fs.readFileSync])
+      done()
+    }).catch(done)
+  })
+
+  test('should call the callback once', function (done) {
+    var fn = promisify(function (cb) {
+      cb(null, 1)
+      cb(null, 2)
+    })
+
+    fn()
+      .then(function (res) {
+        test.strictEqual(res, 1)
+        done()
+      })
+      .catch(done)
+  })
+
+  test('should be rejected promise if callback(err)', function (done) {
+    var fn = promisify(function (cb) {
+      cb(new Error('foo qux'))
+    })
+
+    fn()
+      .catch(function (err) {
+        test.strictEqual(err.name, 'Error')
+        test.strictEqual(err.message, 'foo qux')
+        done()
+      })
+      .catch(done)
+  })
+}
+
+if (semver.lt(process.version, '0.11.13')) {
+  factory(function (fn, opts) {
+    return redolent(fn, extend({
+      Promise: Pinkie
+    }, opts))
+  })
+} else {
+  factory(function (fn, opts) {
+    return redolent(fn, extend({}, opts))
+  })
+}

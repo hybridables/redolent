@@ -1,40 +1,95 @@
 {
   "name": "redolent",
   "version": "1.0.9",
-  "description": "Simple promisify **everything** (string, array, stream, boolean, sync/async function, etc) with sane defaults.",
-  "repository": "hybridables/redolent",
-  "author": "Charlike Mike Reagent <@tunnckoCore> (http://www.tunnckocore.tk)",
-  "main": "index.js",
+  "description": "Simple promisify with sane defaults, works on node 0.10 if you provide custom Promise through options",
+  "repository": "tunnckoCore/redolent",
+  "author": "Charlike Mike Reagent <@tunnckoCore> (https://i.am.charlike.online)",
+  "precommit.silent": true,
+  "jsnext:main": "dist/redolent.es.js",
+  "module": "dist/redolent.es.js",
+  "main": "dist/redolent.common.js",
   "license": "MIT",
   "scripts": {
-    "test": "standard && node test.js"
+    "lint": "standard index.js test.js --fix --verbose",
+    "test": "npm-run-all -s lint test:*",
+    "test:api": "nyc --reporter lcov node test.js",
+    "test:report": "nyc report",
+    "prerelease": "npm test",
+    "release": "standard-version --sign --no-verify",
+    "git": "npm-run-all -s git:*",
+    "git:add": "git add --all",
+    "git:cz": "git-cz",
+    "commit": "npm-run-all -s test build git",
+    "build": "npm-run-all -s build:*",
+    "build:clean": "rimraf dist",
+    "build:bundle": "rollup -c",
+    "build:show": "ls -al dist"
   },
-  "dependencies": {
-    "lazy-cache": "^2.0.0",
-    "relike-value": "^1.0.0",
-    "sliced": "^1.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "assertit": "^0.1.0",
-    "is-buffer": "^1.1.0",
-    "isarray": "1.0.0",
-    "pinkie": "^2.0.1",
-    "semver": "^5.0.3"
+    "arrify": "^1.0.1",
+    "commitizen": "~2.7.0",
+    "cz-conventional-changelog": "1.1.5",
+    "extend-shallow": "^2.0.1",
+    "is-async-function": "^1.2.3",
+    "mukla": "^0.4.8",
+    "native-promise": "^1.0.1",
+    "npm-run-all": "~3.1.2",
+    "nyc": "^10.1.2",
+    "pinkie": "^2.0.4",
+    "pre-commit": "^1.2.2",
+    "rimraf": "^2.6.1",
+    "rollup": "^0.41.5",
+    "rollup-plugin-buble": "^0.15.0",
+    "rollup-plugin-commonjs": "^8.0.0",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "semver": "^5.3.0",
+    "sliced": "^1.0.1",
+    "standard": "^9.0.0",
+    "standard-version": "^4.0.0"
   },
   "files": [
-    "index.js",
-    "utils.js"
+    "dist/"
   ],
-  "keywords": [
-    "anything",
-    "bluebird",
-    "callback",
-    "defaults",
-    "everywhere",
-    "native",
-    "native-promise",
-    "promise",
-    "promisify",
-    "simple"
-  ]
+  "keywords": [],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "standard": {
+    "ignore": [
+      "dist/**"
+    ]
+  },
+  "verb": {
+    "run": true,
+    "toc": {
+      "render": true,
+      "method": "preWrite",
+      "maxdepth": 3
+    },
+    "layout": "empty",
+    "tasks": [
+      "readme"
+    ],
+    "related": {
+      "list": [
+        "always-done",
+        "minibase",
+        "try-catch-core"
+      ],
+      "highlight": "always-done"
+    },
+    "lint": {
+      "reflinks": true
+    }
+  },
+  "nyc": {
+    "check-coverage": true,
+    "statements": 100,
+    "functions": 100,
+    "branches": 100,
+    "lines": 100
+  }
 }
