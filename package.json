@@ -2,7 +2,7 @@
   "name": "redolent",
   "version": "1.0.9",
   "description": "Simple promisify with sane defaults, works on node 0.10 if you provide custom Promise through options",
-  "repository": "tunnckoCore/redolent",
+  "repository": "hybridables/redolent",
   "author": "Charlike Mike Reagent <@tunnckoCore> (https://i.am.charlike.online)",
   "precommit.silent": true,
   "jsnext:main": "dist/redolent.es.js",
@@ -62,6 +62,13 @@
       "dist/**"
     ]
   },
+  "nyc": {
+    "check-coverage": true,
+    "statements": 100,
+    "functions": 100,
+    "branches": 100,
+    "lines": 100
+  },
   "verb": {
     "run": true,
     "toc": {
@@ -77,19 +84,36 @@
       "list": [
         "always-done",
         "minibase",
-        "try-catch-core"
+        "try-catch-core",
+        "always-promise",
+        "native-promise",
+        "relike-value",
+        "letta",
+        "always-thunk",
+        "dush",
+        "arr-includes"
       ],
       "highlight": "always-done"
     },
     "lint": {
       "reflinks": true
-    }
-  },
-  "nyc": {
-    "check-coverage": true,
-    "statements": 100,
-    "functions": 100,
-    "branches": 100,
-    "lines": 100
+    },
+    "reflinks": [
+      "always-done",
+      "async-done",
+      "base",
+      "bluebird",
+      "charlike",
+      "co",
+      "commitizen",
+      "dezalgo",
+      "is-async-function",
+      "once",
+      "pinkie",
+      "relike",
+      "standard-version",
+      "verb",
+      "verb-generate-readme"
+    ]
   }
 }
