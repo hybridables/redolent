@@ -82,6 +82,10 @@ module.exports = function redolent (fn, opts) {
     opts.context = this || opts.context
     opts.args = arrify(opts.args).concat(sliced(arguments))
 
+    if (typeof opts.Promise !== 'function') {
+      throw new TypeError('redolent: no native Promise support and no opts.Promise')
+    }
+
     var promise = new opts.Promise(function (resolve, reject) {
       var called = false
 
@@ -106,8 +110,12 @@ module.exports = function redolent (fn, opts) {
       }
     })
 
-    promise.___nativePromise = Boolean(Native)
-    promise.___customPromise = !promise.___nativePromise
-    return promise
+    return normalize(promise, Native)
   }
+}
+
+function normalize (promise, isNativeSupported) {
+  promise.___nativePromise = Boolean(isNativeSupported)
+  promise.___customPromise = !promise.___nativePromise
+  return promise
 }

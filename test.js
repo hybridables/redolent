@@ -160,14 +160,30 @@ function factory (promisify) {
   })
 }
 
+function factoryNoPromise (fn, opts) {
+  test('should throw TypeError from promisified function if no Promise', function (done) {
+    function fixture () {
+      fn(function () {
+        return 123
+      }, opts)()
+    }
+
+    test.throws(fixture, TypeError)
+    test.throws(fixture, /no native Promise support and no opts\.Promise/)
+    done()
+  })
+}
+
 if (semver.lt(process.version, '0.11.13')) {
   factory(function (fn, opts) {
     return redolent(fn, extend({
       Promise: Pinkie
     }, opts))
   })
+  factoryNoPromise(redolent)
 } else {
   factory(function (fn, opts) {
     return redolent(fn, extend({}, opts))
   })
+  factoryNoPromise(redolent, { Promise: false })
 }
