@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/hybridables/redolent/compare/v2.0.0...v2.0.1) (2017-03-13)
+
+
+### Bug Fixes
+
+* **package:** tweak `npm run commit` script - build before test ([de17b5f](https://github.com/hybridables/redolent/commit/de17b5f))
+* **promises:** throw TypeError from promisified function when no Promise ([c88bac1](https://github.com/hybridables/redolent/commit/c88bac1)), closes [#16](https://github.com/hybridables/redolent/issues/16)
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/hybridables/redolent/compare/v1.0.9...v2.0.0) (2017-03-11)
 
