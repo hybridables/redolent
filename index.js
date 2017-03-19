@@ -15,20 +15,16 @@ var Promize = require('native-or-another')
 var isAsync = require('is-async-function')
 
 /**
- * Will try to promisify `fn` with native Promise,
+ * > Will try to promisify `fn` with native Promise,
  * otherwise you can give different promise module
  * to `opts.Promise`, for example [pinkie][] or [bluebird][].
  * If `fn` [is-async-function][] it will be passed with `done` callback
  * as last argument - always concatenated with the other provided args
  * through `opts.args`.
  *
- * _**Note:** Uses [native-or-another][] for detection, so it will always will use the
+ * **Note:** Uses [native-or-another][] for detection, so it will always will use the
  * native Promise, otherwise will try to load some of the common promise libraries
- * and as last resort if can't find one of them installed, then throws an Error!_
- *
- * **Tip:** You can use `require('native-or-another/register')` instead of passing
- * a promise to `opts.Promise`, it exposes a function that accepts same
- * options object, `{ Promise: MyPromise }` for example.
+ * and as last resort if can't find one of them installed, then throws an Error!
  *
  * **Example**
  *
