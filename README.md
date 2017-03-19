@@ -49,16 +49,24 @@ const redolent = require('redolent')
 
 ## API
 
-### [redolent](index.js#L71)
+### [redolent](index.js#L86)
 Will try to promisify `fn` with native Promise, otherwise you can give different promise module to `opts.Promise`, for example [pinkie][] or [bluebird][]. If `fn` [is-async-function][] it will be passed with `done` callback as last argument - always concatenated with the other provided args through `opts.args`.
+
+_**Note:** Uses [native-or-another][] for detection, so it will always will use the
+native Promise, otherwise will try to load some of the common promise libraries
+and as last resort if can't find one of them installed, then throws an Error!_
+**Tip:** You can use `require('native-or-another/register')` instead of passing
+a promise to `opts.Promise`, it exposes a function that accepts same
+options object, `{ Promise: MyPromise }` for example.
 
 **Params**
 
 * `<fn>` **{Function}**: a function to be promisified    
-* `[opts]` **{Object}**: optional options - like `.args`, `.context`, `.Promise`    
+* `[opts]` **{Object}**: optional options, also passed to [native-or-another][]    
 * `[opts.args]` **{Array}**: additional arguments to be passed to `fn`, all args from `opts.args` and these that are passed to promisifed function are concatenated    
 * `[opts.context]` **{Object}**: what context to be applied to `fn`, by default it is smart enough and applies the `this` context of redolent call or the call of the promisified function    
-* `[opts.Promise]` **{Function}**: custom Promise constructor function, like [bluebird][] for example, by default uses the native Promise    
+* `[opts.Promise]` **{Function}**: custom Promise constructor for versions `< v0.12`, like [bluebird][] for example, by default it **always** uses the native Promise in newer node versions    
+* `[opts.global]` **{Boolean}**: defaults to `true`, pass false if you don't want to attach/add/register the given promise to the `global` scope, when node `< v0.12`    
 * `returns` **{Function}**: promisified function  
 
 **Example**
@@ -119,7 +127,7 @@ console.log(promise.___nativePromise) // => false
 - [always-promise](https://www.npmjs.com/package/always-promise): Promisify, basically, everything. Generator function, callback-style or synchronous function; sync function that returns child process, stream or observable; directly passed… [more](https://github.com/hybridables/always-promise#readme) | [homepage](https://github.com/hybridables/always-promise#readme "Promisify, basically, everything. Generator function, callback-style or synchronous function; sync function that returns child process, stream or observable; directly passed promise, stream or child process.")
 - [always-thunk](https://www.npmjs.com/package/always-thunk): Create thunk from async or sync function. Works like `thunkify`. | [homepage](https://github.com/tunnckocore/always-thunk#readme "Create thunk from async or sync function. Works like `thunkify`.")
 - [arr-includes](https://www.npmjs.com/package/arr-includes): Return positive value if any of passed values exists in array, or optionally an index. | [homepage](https://github.com/tunnckocore/arr-includes#readme "Return positive value if any of passed values exists in array, or optionally an index.")
-- [dush](https://www.npmjs.com/package/dush): Microscopic & functional event emitter | [homepage](https://github.com/tunnckocore/dush#readme "Microscopic & functional event emitter")
+- [dush](https://www.npmjs.com/package/dush): Microscopic & functional event emitter in ~260 bytes, extensible through plugins. | [homepage](https://github.com/tunnckocore/dush#readme "Microscopic & functional event emitter in ~260 bytes, extensible through plugins.")
 - [letta](https://www.npmjs.com/package/letta): Promisify sync, async or generator function, using [relike][]. Kind of promisify, but lower level. Full compatibility with [co][]4 and passing… [more](https://github.com/hybridables/letta#readme) | [homepage](https://github.com/hybridables/letta#readme "Promisify sync, async or generator function, using [relike][]. Kind of promisify, but lower level. Full compatibility with [co][]4 and passing 100% of its tests.")
 - [minibase](https://www.npmjs.com/package/minibase): Minimalist alternative for Base. Build complex APIs with small units called plugins. Works well with most of the already existing… [more](https://github.com/node-minibase/minibase#readme) | [homepage](https://github.com/node-minibase/minibase#readme "Minimalist alternative for Base. Build complex APIs with small units called plugins. Works well with most of the already existing [base][] plugins.")
 - [native-promise](https://www.npmjs.com/package/native-promise): Get native `Promise` or falsey value if not available. | [homepage](https://github.com/tunnckocore/native-promise#readme "Get native `Promise` or falsey value if not available.")
@@ -168,7 +176,7 @@ Copyright © 2015, 2017, [Charlike Mike Reagent](https://i.am.charlike.online). 
 
 ***
 
-_This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.4.3, on March 11, 2017._  
+_This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.4.3, on March 17, 2017._  
 _Project scaffolded using [charlike][] cli._
 
 [always-done]: https://github.com/hybridables/always-done
@@ -214,3 +222,4 @@ _Project scaffolded using [charlike][] cli._
 [paypalme-url]: https://www.paypal.me/tunnckoCore
 [paypalme-img]: https://img.shields.io/badge/paypal-donate-brightgreen.svg
 
+[native-or-another]: https://github.com/tunnckocore/native-or-another

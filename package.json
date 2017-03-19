@@ -32,8 +32,8 @@
     "cz-conventional-changelog": "1.1.5",
     "extend-shallow": "^2.0.1",
     "is-async-function": "^1.2.3",
-    "mukla": "^0.4.8",
-    "native-promise": "^1.0.1",
+    "mukla": "^0.4.9",
+    "native-or-another": "^5.0.1",
     "npm-run-all": "~3.1.2",
     "nyc": "^10.1.2",
     "pinkie": "^2.0.4",
@@ -49,6 +49,7 @@
     "standard-version": "^4.0.0"
   },
   "files": [
+    "index.js",
     "dist/"
   ],
   "keywords": [

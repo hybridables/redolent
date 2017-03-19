@@ -160,30 +160,38 @@ function factory (promisify) {
   })
 }
 
-function factoryNoPromise (fn, opts) {
-  test('should throw TypeError from promisified function if no Promise', function (done) {
-    function fixture () {
-      fn(function () {
-        return 123
-      }, opts)()
-    }
-
-    test.throws(fixture, TypeError)
-    test.throws(fixture, /no native Promise support and no opts\.Promise/)
-    done()
-  })
-}
-
-if (semver.lt(process.version, '0.11.13')) {
+if (semver.lt(process.version, '0.12.0')) {
   factory(function (fn, opts) {
     return redolent(fn, extend({
       Promise: Pinkie
     }, opts))
   })
-  factoryNoPromise(redolent)
+  test('should autoload some custom Promise (installed in some of the devDeps)', function (done) {
+    var func = redolent(function () { return 123 })
+    var promise = func()
+
+    test.strictEqual(Promise.___customPromise, true)
+    test.strictEqual(promise.___customPromise, true)
+
+    promise.then(function (res) {
+      test.strictEqual(res, 123)
+      done()
+    }, done).catch(done)
+  })
 } else {
   factory(function (fn, opts) {
     return redolent(fn, extend({}, opts))
   })
-  factoryNoPromise(redolent, { Promise: false })
+  test('should always load native promise if >= 0.12', function (done) {
+    var promise = redolent(function () {
+      return 1
+    })()
+
+    test.strictEqual(Promise.___nativePromise, true)
+    test.strictEqual(promise.___nativePromise, true)
+    promise.then(function (num) {
+      test.strictEqual(num, 1)
+      done()
+    }, done).catch(done)
+  })
 }

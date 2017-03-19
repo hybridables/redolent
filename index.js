@@ -10,7 +10,8 @@
 var arrify = require('arrify')
 var sliced = require('sliced')
 var extend = require('extend-shallow')
-var Native = require('native-promise')
+var register = require('native-or-another/register')
+var Promize = require('native-or-another')
 var isAsync = require('is-async-function')
 
 /**
@@ -20,6 +21,14 @@ var isAsync = require('is-async-function')
  * If `fn` [is-async-function][] it will be passed with `done` callback
  * as last argument - always concatenated with the other provided args
  * through `opts.args`.
+ *
+ * _**Note:** Uses [native-or-another][] for detection, so it will always will use the
+ * native Promise, otherwise will try to load some of the common promise libraries
+ * and as last resort if can't find one of them installed, then throws an Error!_
+ *
+ * **Tip:** You can use `require('native-or-another/register')` instead of passing
+ * a promise to `opts.Promise`, it exposes a function that accepts same
+ * options object, `{ Promise: MyPromise }` for example.
  *
  * **Example**
  *
@@ -53,7 +62,7 @@ var isAsync = require('is-async-function')
  *
  * @name   redolent
  * @param  {Function} `<fn>` a function to be promisified
- * @param  {Object} `[opts]` optional options - like `.args`, `.context`, `.Promise`
+ * @param  {Object} `[opts]` optional options, also passed to [native-or-another][]
  * @param  {Array} `[opts.args]` additional arguments to be passed to `fn`,
  *                               all args from `opts.args` and these that are
  *                               passed to promisifed function are concatenated
@@ -61,10 +70,16 @@ var isAsync = require('is-async-function')
  *                                   by default it is smart enough and applies
  *                                   the `this` context of redolent call or the call
  *                                   of the promisified function
- * @param  {Function} `[opts.Promise]` custom Promise constructor function,
- *                                   like [bluebird][] for example,
- *                                   by default uses the native Promise
+ * @param  {Function} `[opts.Promise]` custom Promise constructor for versions `< v0.12`,
+ *                                   like [bluebird][] for example, by default
+ *                                   it **always** uses the native Promise in newer
+ *                                   node versions
+ * @param  {Boolean} `[opts.global]` defaults to `true`, pass false if you don't
+ *                                   want to attach/add/register the given promise
+ *                                   to the `global` scope, when node `< v0.12`
  * @return {Function} promisified function
+ * @throws {TypeError} If `fn` is not a function
+ * @throws {TypeError} If no promise is found
  * @api public
  */
 
@@ -73,18 +88,21 @@ module.exports = function redolent (fn, opts) {
     throw new TypeError('redolent: expect `fn` to be a function')
   }
 
-  opts = extend({
-    context: this,
-    Promise: Native
-  }, opts)
+  opts = extend({ context: this, Promise: Promize }, opts)
+  opts.Promise = register(opts)
+
+  // we can't test that here, because some
+  // of our devDeps has some Promise library,
+  // so it's loaded by `native-or-another` automatically
+  /* istanbul ignore next */
+  if (typeof opts.Promise !== 'function') {
+    var msg = 'no native Promise support nor other promise were found'
+    throw new TypeError('redolent: ' + msg)
+  }
 
   return function () {
     opts.context = this || opts.context
     opts.args = arrify(opts.args).concat(sliced(arguments))
-
-    if (typeof opts.Promise !== 'function') {
-      throw new TypeError('redolent: no native Promise support and no opts.Promise')
-    }
 
     var promise = new opts.Promise(function (resolve, reject) {
       var called = false
@@ -110,12 +128,12 @@ module.exports = function redolent (fn, opts) {
       }
     })
 
-    return normalize(promise, Native)
+    return normalize(promise, opts.Promise)
   }
 }
 
-function normalize (promise, isNativeSupported) {
-  promise.___nativePromise = Boolean(isNativeSupported)
-  promise.___customPromise = !promise.___nativePromise
+function normalize (promise, Ctor) {
+  promise.___nativePromise = Boolean(Ctor.___nativePromise)
+  promise.___customPromise = Boolean(Ctor.___customPromise)
   return promise
 }
