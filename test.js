@@ -12,7 +12,7 @@
 var fs = require('fs')
 var test = require('mukla')
 var semver = require('semver')
-var redolent = require('./index')
+var redolent = require('./dist/redolent-testing.js')
 var extend = require('extend-shallow')
 var Pinkie = require('pinkie')
 

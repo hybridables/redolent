@@ -1,18 +1,18 @@
+'use strict';
+
+var arrify = require('arrify');
+var sliced = require('sliced');
+var extend = require('extend-shallow');
+var register = require('native-or-another/register');
+var Promize = require('native-or-another');
+var isAsync = require('is-async-function');
+
 /*!
  * redolent <https://github.com/tunnckoCore/redolent>
  *
  * Copyright (c) Charlike Mike Reagent <@tunnckoCore> (https://i.am.charlike.online)
  * Released under the MIT license.
  */
-
-'use strict'
-
-import arrify from 'arrify'
-import sliced from 'sliced'
-import extend from 'extend-shallow'
-import register from 'native-or-another/register'
-import Promize from 'native-or-another'
-import isAsync from 'is-async-function'
 
 /**
  * > Will try to promisify `fn` with native Promise,
@@ -79,57 +79,59 @@ import isAsync from 'is-async-function'
  * @api public
  */
 
-export default function redolent (fn, opts) {
+function redolent (fn, opts) {
   if (typeof fn !== 'function') {
     throw new TypeError('redolent: expect `fn` to be a function')
   }
 
-  opts = extend({ context: this, Promise: Promize }, opts)
-  opts.Promise = register(opts)
+  opts = extend({ context: this, Promise: Promize }, opts);
+  opts.Promise = register(opts);
 
   // we can't test that here, because some
   // of our devDeps has some Promise library,
   // so it's loaded by `native-or-another` automatically
   /* istanbul ignore next */
   if (typeof opts.Promise !== 'function') {
-    var msg = 'no native Promise support nor other promise were found'
+    var msg = 'no native Promise support nor other promise were found';
     throw new TypeError('redolent: ' + msg)
   }
 
   return function () {
-    opts.context = this || opts.context
-    opts.args = arrify(opts.args).concat(sliced(arguments))
+    opts.context = this || opts.context;
+    opts.args = arrify(opts.args).concat(sliced(arguments));
 
     var promise = new opts.Promise(function (resolve, reject) {
-      var called = false
+      var called = false;
 
       function done (er, res) {
-        called = true
+        called = true;
         if (er) {
           return reject(er)
         }
         if (arguments.length > 2) {
-          res = sliced(arguments, 1)
+          res = sliced(arguments, 1);
         }
         return resolve(res)
       }
 
-      var isAsyncFn = isAsync(fn)
+      var isAsyncFn = isAsync(fn);
 
-      opts.args = isAsyncFn ? opts.args.concat(done) : opts.args
-      var syncResult = fn.apply(opts.context, opts.args)
+      opts.args = isAsyncFn ? opts.args.concat(done) : opts.args;
+      var syncResult = fn.apply(opts.context, opts.args);
 
       if (!isAsyncFn && !called) {
-        resolve(syncResult)
+        resolve(syncResult);
       }
-    })
+    });
 
     return normalize(promise, opts.Promise)
   }
 }
 
 function normalize (promise, Ctor) {
-  promise.___nativePromise = Boolean(Ctor.___nativePromise)
-  promise.___customPromise = Boolean(Ctor.___customPromise)
+  promise.___nativePromise = Boolean(Ctor.___nativePromise);
+  promise.___customPromise = Boolean(Ctor.___customPromise);
   return promise
 }
+
+module.exports = redolent;

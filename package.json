@@ -22,10 +22,13 @@
     "commit": "npm-run-all -s build test git",
     "build": "npm-run-all -s build:*",
     "build:clean": "rimraf dist",
-    "build:bundle": "rollup -c",
+    "build:dist": "rollup -c",
+    "build:testing": "rollup -c --environment NODE_TESTING",
     "build:show": "ls -al dist"
   },
-  "dependencies": {},
+  "dependencies": {
+    "native-or-another": "^5.0.1"
+  },
   "devDependencies": {
     "arrify": "^1.0.1",
     "commitizen": "~2.7.0",
@@ -33,7 +36,6 @@
     "extend-shallow": "^2.0.1",
     "is-async-function": "^1.2.3",
     "mukla": "^0.4.9",
-    "native-or-another": "^5.0.1",
     "npm-run-all": "~3.1.2",
     "nyc": "^10.1.2",
     "pinkie": "^2.0.4",
