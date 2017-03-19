@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.3"></a>
+## [2.0.3](https://github.com/hybridables/redolent/compare/v2.0.2...v2.0.3) (2017-03-19)
+
+
+### Bug Fixes
+
+* **deps:** dont resolve "native-or-another" and ES6-ify ([c465abe](https://github.com/hybridables/redolent/commit/c465abe))
+
+
+
 <a name="2.0.2"></a>
 ## [2.0.2](https://github.com/hybridables/redolent/compare/v2.0.1...v2.0.2) (2017-03-19)
 
