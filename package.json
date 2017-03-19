@@ -1,6 +1,6 @@
 {
   "name": "redolent",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Simple promisify with sane defaults, works on node 0.10 if you provide custom Promise through options",
   "repository": "hybridables/redolent",
   "author": "Charlike Mike Reagent <@tunnckoCore> (https://i.am.charlike.online)",
