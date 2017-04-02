@@ -392,8 +392,9 @@ function redolent (fn, opts) {
 
       opts.args = isAsyncFn ? opts.args.concat(done) : opts.args;
       var syncResult = fn.apply(opts.context, opts.args);
+      var xPromise = isAsyncFn && !called && isPromise(syncResult, opts.Promise);
 
-      if (!isAsyncFn && !called) {
+      if ((!isAsyncFn && !called) || xPromise) {
         resolve(syncResult);
       }
     });
@@ -406,6 +407,15 @@ function normalize (promise, Ctor) {
   promise.___nativePromise = Boolean(Ctor.___nativePromise);
   promise.___customPromise = Boolean(Ctor.___customPromise);
   return promise
+}
+
+function isPromise (val, Promize$$1) {
+  return val instanceof Promize$$1 || (
+    val !== null &&
+    typeof val === 'object' &&
+    typeof val.then === 'function' &&
+    typeof val.catch === 'function'
+  )
 }
 
 module.exports = redolent;

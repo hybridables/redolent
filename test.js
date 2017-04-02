@@ -158,6 +158,17 @@ function factory (promisify) {
       })
       .catch(done)
   })
+
+  test('should work if `done` is present, but return a promise', function (done) {
+    var fn = promisify(function (xxx, done) {
+      return Pinkie.resolve(100 + xxx)
+    })
+
+    return fn(200).then(function (val) {
+      test.strictEqual(val, 300)
+      done()
+    }, done).catch(done)
+  })
 }
 
 if (semver.lt(process.version, '0.12.0')) {
