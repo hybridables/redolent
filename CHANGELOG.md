@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.4"></a>
+## [2.0.4](https://github.com/hybridables/redolent/compare/v2.0.3...v2.0.4) (2017-04-02)
+
+
+### Bug Fixes
+
+* **ci:** appveyor-retry ([3577762](https://github.com/hybridables/redolent/commit/3577762))
+* **return:** handle when `done` is present, but return promise ([631823a](https://github.com/hybridables/redolent/commit/631823a)), closes [#18](https://github.com/hybridables/redolent/issues/18)
+* **tweak:** tests ([181f41b](https://github.com/hybridables/redolent/commit/181f41b))
+
+
+
 <a name="2.0.3"></a>
 ## [2.0.3](https://github.com/hybridables/redolent/compare/v2.0.2...v2.0.3) (2017-03-19)
 
