@@ -198,9 +198,9 @@ if (semver.lt(process.version, '0.12.0')) {
       return 1
     })()
 
-    test.strictEqual(Promise.___nativePromise, true)
-    test.strictEqual(promise.___nativePromise, true)
     promise.then(function (num) {
+      test.strictEqual(Promise.___nativePromise, true)
+      test.strictEqual(promise.___nativePromise, true)
       test.strictEqual(num, 1)
       done()
     }, done).catch(done)

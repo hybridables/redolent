@@ -409,6 +409,7 @@ function normalize (promise, Ctor) {
   return promise
 }
 
+/* istanbul ignore next */
 function isPromise (val, Promize$$1) {
   return val instanceof Promize$$1 || (
     val !== null &&
