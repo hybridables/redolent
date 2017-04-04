@@ -66,10 +66,10 @@ function factory (promisify) {
     var readFile = promisify(fs.readFile, {
       Promise: Pinkie
     })
-    var promise = readFile('package.json')
+    var promise = readFile('package.json', 'utf8')
 
     promise.then(function (res) {
-      test.strictEqual(typeof res !== 'string', true)
+      test.strictEqual(typeof res, 'string')
       if (semver.lt(process.version, '0.11.13')) {
         test.strictEqual(promise.___customPromise, true)
       }
@@ -160,7 +160,7 @@ function factory (promisify) {
   })
 
   test('should work if `done` is present, but return a promise', function (done) {
-    var fn = promisify(function (xxx, done) {
+    var fn = promisify(function (xxx, cb) {
       return Pinkie.resolve(100 + xxx)
     })
 
@@ -168,6 +168,19 @@ function factory (promisify) {
       test.strictEqual(val, 300)
       done()
     }, done).catch(done)
+  })
+
+  test('should reject if async fn returns non Promise, nor call a callback', function (done) {
+    var func = promisify(function (cb) {
+      return 'foo bar'
+    })
+
+    func().catch(function (err) {
+      test.strictEqual(err instanceof Error, true)
+      test.strictEqual(/Asynchronous functions can only/.test(err.message), true)
+      test.strictEqual(/return a Promise or invoke a callback/.test(err.message), true)
+      done()
+    }).catch(done)
   })
 }
 

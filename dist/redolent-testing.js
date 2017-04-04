@@ -118,10 +118,17 @@ function redolent (fn, opts) {
 
       opts.args = isAsyncFn ? opts.args.concat(done) : opts.args;
       var syncResult = fn.apply(opts.context, opts.args);
-      var xPromise = isAsyncFn && !called && isPromise(syncResult, opts.Promise);
 
-      if ((!isAsyncFn && !called) || xPromise) {
+      var xPromise = isPromise(syncResult, opts.Promise);
+      var hasPromiseReturn = isAsyncFn && !called && xPromise;
+
+      if ((!isAsyncFn && !called) || hasPromiseReturn) {
         resolve(syncResult);
+        return
+      }
+      if (isAsyncFn && !xPromise && syncResult !== undefined) {
+        var msg = 'Asynchronous functions can only return a Promise or invoke a callback';
+        reject(new Error('redolent: ' + msg));
       }
     });
 
