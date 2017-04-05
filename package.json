@@ -50,11 +50,6 @@
     "standard": "^10.0.0",
     "standard-version": "^4.0.0"
   },
-  "eslintConfig": {
-    "extends": [
-      "standard"
-    ]
-  },
   "files": [
     "index.js",
     "dist/"
