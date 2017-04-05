@@ -47,8 +47,13 @@
     "rollup-plugin-node-resolve": "^2.0.0",
     "semver": "^5.3.0",
     "sliced": "^1.0.1",
-    "standard": "^9.0.0",
+    "standard": "^10.0.0",
     "standard-version": "^4.0.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "standard"
+    ]
   },
   "files": [
     "index.js",
@@ -75,11 +80,6 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "standard": {
-    "ignore": [
-      "dist/**"
-    ]
   },
   "nyc": {
     "check-coverage": true,
