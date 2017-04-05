@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.5"></a>
+## [2.0.5](https://github.com/hybridables/redolent/compare/v2.0.4...v2.0.5) (2017-04-05)
+
+
+### Bug Fixes
+
+* **ci:** add CircleCI yaml ([54ac357](https://github.com/hybridables/redolent/commit/54ac357))
+* **deps:** update deps, add eslintConfig field ([074a728](https://github.com/hybridables/redolent/commit/074a728))
+* **returns:** should return rejected error when non Promise value ([67ae2b6](https://github.com/hybridables/redolent/commit/67ae2b6)), closes [#20](https://github.com/hybridables/redolent/issues/20)
+* **services:** add .eslintrc instead, so CodeClimate will respect it ([b390b23](https://github.com/hybridables/redolent/commit/b390b23))
+
+
+
 <a name="2.0.4"></a>
 ## [2.0.4](https://github.com/hybridables/redolent/compare/v2.0.3...v2.0.4) (2017-04-02)
 
